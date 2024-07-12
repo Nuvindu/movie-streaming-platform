@@ -86,6 +86,8 @@ This scenario demonstrates how rollback works when a transaction fails. In the u
 
 To show the capabilities of Ballerina FTP and Kafka packages, a file (movie) is uploaded to an SFTP server using the FTP client.  A Ballerina FTP listener is configured to receive updates about new file uploads to the FTP server. When a new file is uploaded, it extracts details from the file and sends information about the movie release to a Kafka topic using a Kafka producer. Then a Kafka listener will then consume the messages from the topic and send emails to all users about the new releases.
 
+>**Note:** To use the `gmail` client, you need to configure the `clientId`, `clientSecret` and the `refreshToken` to access Gmail APIs. lease follow the steps in the [setup guide](https://central.ballerina.io/ballerinax/googleapis.gmail/4.0.1#setup-guide) to complete this configuration.
+
 <img src=./resources/images/ftp_kafka_integration.png alt="Kafka Integration" width="60%">
 
 ### Kafka Configurations

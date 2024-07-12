@@ -1,0 +1,40 @@
+### Creates new user
+POST http://localhost:8080/users
+content-type: application/json
+
+{
+    "username": "newUser",
+    "email": "nuvidu.18@cse.mrt.ac.lk",
+    "password": "password"
+}
+
+### Gets user details
+GET http://localhost:8080/users?username=newUser&password=password
+
+### Updates password of a user
+PUT http://localhost:8080/users?username=newUser&password=password&newEmail=newuser@dummymail.com
+
+### Delete a user
+DELETE http://localhost:8080/users?username=newUser&password=password
+
+### Subscribe to a package
+POST http://localhost:8080/users/subscription
+content-type: application/json
+
+{
+    "username": "newUser",
+    "password": "password",
+    "packageType": "PREMIUM",
+    "amount": 44.99
+}
+
+### Subscribe to a package with invalid amount
+POST http://localhost:8080/users/subscription
+content-type: application/json
+
+{
+    "username": "newUser",
+    "password": "password",
+    "packageType": "PREMIUM",
+    "amount": 2
+}

@@ -6,6 +6,9 @@ The movie streaming platform allows users to register and subscribe to a package
 
 ## Deploying the system
 
+### Prerequisites
+
+
 ### 1. Start all the Servers (MySQL, Oracle, Kafka, FTP, SFTP)
 
 Run the following docker command to start MySQL, Oracle, Kafka, FTP, and SFTP servers.
@@ -65,19 +68,19 @@ oracledb:Client|sql:Error database = check new (host, username, password, databa
 
 Here, it demonstrates registering a user, retrieving user information, updating user details, and finally deleting the user. The implementation accesses a MySQL or Oracle database using credentials and performs CRUD operations on the database.
 
-<img src=./resources/images/basic-crud.png alt="Basic Database Operations" width="40%">
+<img src=./resources/images/basic-crud.png alt="Basic Database Operations" width="50%">
 
 ### 2. Database Transactions
 
 When a user subscribes to an OTT package, the process begins by adding a new record to the subscriptions table. Next, the user's record is updated with the newly assigned subscription ID. Finally, a new record is inserted into the payments table. All three steps occur within an atomic transaction, ensuring that if any step fails, the entire process is rolled back to its initial state.
 
-<img src=./resources/images/db-transaction.png alt="Database Transactions" width="30%">
+<img src=./resources/images/db-transaction.png alt="Database Transactions" width="40%">
 
 ### 3. Database Transactions with Rollback
 
 This scenario demonstrates how rollback works when a transaction fails. In the user subscription scenario, a new record is added to the subscriptions table, and the user's record is updated with the newly assigned subscription ID. Adding a new record into the payments table will fail due to an invalid value in the payment field, and then all previous steps will be rolled back to the initial state.
 
-<img src=./resources/images/db-transaction-rollback.png alt="Database Transactions with Rollbacks" width="40%">
+<img src=./resources/images/db-transaction-rollback.png alt="Database Transactions with Rollbacks" width="50%">
 
 ## FTP & Kafka Integration
 

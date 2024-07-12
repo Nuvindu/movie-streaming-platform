@@ -1,0 +1,37 @@
+kafkaTopic = "new-releases"
+kafkaGroupId = "new-releases-id"
+
+## These configurations are used to initiate the Gmail client
+clientId = "client-id"
+clientSecret = "client-secret"
+refreshToken = "refresh-token"
+
+[sftpListenerConfig]
+protocol = "sftp"
+host = "localhost"
+port = 21213
+fileNamePattern = "(.*).(.*)"
+pollingInterval = 5.0
+
+[sftpListenerConfig.auth.credentials]
+username = "in"
+password = "wso2123"
+
+[sftpListenerConfig.auth.privateKey]
+path = "./resources/ftp-setup/keys/pkcs8-key"
+
+[databaseConfig]
+host = "localhost"
+port = 3306
+user = "root"
+password = "password"
+database = "MOVIE_STREAM_DB"
+
+## OracleDB configurations
+
+# [databaseConfig]
+# host = "localhost"
+# user = "oracle"
+# password = "dummypassword"
+# databaseName = "XEPDB1"
+# databasePort = 1521

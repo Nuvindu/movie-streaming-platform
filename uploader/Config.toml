@@ -1,11 +1,8 @@
-[sftpConfig]
-protocol = "sftp"
+[ftpConfig]
+protocol = "ftp"
 host = "localhost"
-port = 21213
+port = 21
 
-[sftpConfig.auth.credentials]
-username = "in"
-password = "wso2123"
-
-[sftpConfig.auth.privateKey]
-path = "../resources/ftp-setup/keys/pkcs8-key"
+[ftpConfig.auth.credentials]
+username = "user1"
+password = "pass456"

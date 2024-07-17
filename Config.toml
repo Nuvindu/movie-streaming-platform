@@ -1,5 +1,8 @@
 kafkaTopic = "new-releases"
 kafkaGroupId = "new-releases-id"
+kafkaUrl = "broker:29092"
+
+serviceUrl = "http://localhost:8080"
 
 ## These configurations are used to initiate the Gmail client
 ## These values must be changed to actual values before running the service

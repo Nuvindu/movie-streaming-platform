@@ -5,7 +5,7 @@
 
 [ballerina]
 dependencies-toml-version = "2"
-distribution-version = "2201.9.0"
+distribution-version = "2201.9.2"
 
 [[package]]
 org = "ballerina"
@@ -28,6 +28,14 @@ dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "task"},
 	{org = "ballerina", name = "time"}
+]
+
+[[package]]
+org = "ballerina"
+name = "cloud"
+version = "3.0.1"
+modules = [
+	{org = "ballerina", packageName = "cloud", moduleName = "cloud"}
 ]
 
 [[package]]
@@ -329,9 +337,6 @@ dependencies = [
 	{org = "ballerina", name = "jballerina.java"},
 	{org = "ballerina", name = "observe"}
 ]
-modules = [
-	{org = "ballerinai", packageName = "observe", moduleName = "observe"}
-]
 
 [[package]]
 org = "ballerinai"
@@ -417,12 +422,12 @@ org = "wso2"
 name = "video_streaming_service"
 version = "0.1.0"
 dependencies = [
+	{org = "ballerina", name = "cloud"},
 	{org = "ballerina", name = "ftp"},
 	{org = "ballerina", name = "http"},
 	{org = "ballerina", name = "io"},
 	{org = "ballerina", name = "log"},
 	{org = "ballerina", name = "sql"},
-	{org = "ballerinai", name = "observe"},
 	{org = "ballerinai", name = "transaction"},
 	{org = "ballerinax", name = "googleapis.gmail"},
 	{org = "ballerinax", name = "kafka"},

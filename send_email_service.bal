@@ -10,8 +10,9 @@ configurable string clientSecret = ?;
 configurable string refreshToken = ?;
 configurable string kafkaGroupId = ?;
 configurable string kafkaTopic = ?;
+configurable string kafkaUrl = ?;
 
-listener kafka:Listener kafkaListener = new (kafka:DEFAULT_URL, {
+listener kafka:Listener kafkaListener = new (kafkaUrl, {
     groupId: kafkaGroupId,
     topics: kafkaTopic
 });
@@ -22,10 +23,7 @@ service on kafkaListener {
 
     function init() returns error? {
         self.database = check new (...databaseConfig);
-
-        // Here the trap is to catch panic errors that can occur when initializing the Gmail client,  
-        // which is not the normal behaviour in configuring client instances.
-        self.gmail = trap new ({
+        self.gmail = check new ({
             auth: {
                 clientId,
                 clientSecret,

@@ -4,17 +4,18 @@ import ballerina/http;
 import ballerina/log;
 import ballerinax/kafka;
 
-configurable SftpListenerConfig sftpListenerConfig = ?;
+configurable SftpListenerConfig ftpListenerConfig = ?;
+configurable string serviceUrl = ?;
 
-listener ftp:Listener fileListener = check new (sftpListenerConfig);
+listener ftp:Listener fileListener = check new (ftpListenerConfig);
 
 service on fileListener {
     final http:Client clientEp;
     final kafka:Producer producer;
 
     function init() returns error? {
-        self.clientEp = check new ("http://localhost:8080");
-        self.producer = check new (kafka:DEFAULT_URL);
+        self.clientEp = check new (serviceUrl);
+        self.producer = check new (kafkaUrl);
     }
 
     remote function onFileChange(ftp:WatchEvent & readonly event, ftp:Caller caller) returns error? {

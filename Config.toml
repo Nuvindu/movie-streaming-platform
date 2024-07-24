@@ -1,10 +1,10 @@
 kafkaTopic = "new-releases"
 kafkaGroupId = "new-releases-id"
 
-## These configurations are used to initiate the Gmail client
-clientId = "client-id"
-clientSecret = "client-secret"
-refreshToken = "refresh-token"
+## These configurations are used to initiate the SMTP email client
+host = "smtp.gmail.com"
+username = ""
+password = ""
 
 [sftpListenerConfig]
 protocol = "sftp"

@@ -1,13 +1,14 @@
+import ballerina/email;
 import ballerina/log;
+import ballerina/mime;
 import ballerina/sql;
-import ballerinax/googleapis.gmail;
 import ballerinax/kafka;
 import ballerinax/mysql;
 import ballerinax/mysql.driver as _;
 
-configurable string clientId = ?;
-configurable string clientSecret = ?;
-configurable string refreshToken = ?;
+configurable string host = ?;
+configurable string username = ?;
+configurable string password = ?;
 configurable string kafkaGroupId = ?;
 configurable string kafkaTopic = ?;
 
@@ -17,54 +18,42 @@ listener kafka:Listener kafkaListener = new (kafka:DEFAULT_URL, {
 });
 
 service on kafkaListener {
-    final gmail:Client|error gmail;
+    final email:SmtpClient smtp;
     final mysql:Client database;
 
     function init() returns error? {
         self.database = check new (...databaseConfig);
-
-        // Here the trap is to catch panic errors that can occur when initializing the Gmail client,  
-        // which is not the normal behaviour in configuring client instances.
-        self.gmail = trap new ({
-            auth: {
-                clientId,
-                clientSecret,
-                refreshToken
-            }
-        });
+        self.smtp = check new (
+            host = host,
+            username = username,
+            password = password
+        );
     }
 
     remote function onConsumerRecord(Movie[] movies) returns error? {
         string newReleases = string `New Releases: ${
             string:'join(", ", ...from Movie movie in movies
-                select string `${movie.title} (${movie.year})`)}`;
+                    select string `${movie.title} (${movie.year})`)}`;
         log:printInfo(newReleases);
-        gmail:Client|error gmail = self.gmail;
-        if gmail is error {
-            log:printError("Error initializing gmail client: " + gmail.message());
-            return;
-        }
         stream<Email, sql:Error?> emails = self.database->query(`SELECT email FROM users`);
         check from Email email in emails
             do {
-                error? send = self.sendMail(gmail, newReleases, email.email);
-                if send is error {
-                    log:printError("Error sending email to: " + email.email);
-                }
+                check self.sendMail(self.smtp, newReleases, email.email);
             };
     }
 
-    function sendMail(gmail:Client gmail, string body, string recipientEmail) returns error? {
-        gmail:MessageRequest message = {
-            to: [recipientEmail],
+    function sendMail(email:SmtpClient smtp, string body, string recipient) returns error? {
+        email:Message message = {
+            to: [recipient],
             subject: "New Movies Released",
-            bodyInHtml: string `<html>
+            contentType: mime:TEXT_HTML,
+            htmlBody: string `<html>
                                     <head>
                                         <title>New Releases</title>
                                         <body>${body}</body>
                                     </head>
                                 </html>`
         };
-        _ = check gmail->/users/me/messages/send.post(message);
+        _ = check smtp->sendMessage(message);
     }
 }
